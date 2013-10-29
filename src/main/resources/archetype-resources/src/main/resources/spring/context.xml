@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lang="http://www.springframework.org/schema/lang"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+   http://www.springframework.org/schema/lang 
+   http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="${package}" />
+	
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages" />
+    </bean>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="en" />
+    </bean>	
+	
+    <!-- Enable handling of java.util.logging through SLF4J -->
+    <bean id="slf4JBridgeHandler" class="org.slf4j.bridge.SLF4JBridgeHandler"
+        init-method="removeHandlersForRootLogger" />
+    <bean class="org.slf4j.bridge.SLF4JBridgeHandler" init-method="install"
+        depends-on="slf4JBridgeHandler" />
+
+    <import resource="datasource.xml" />
+
+</beans>
